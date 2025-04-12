@@ -1,4 +1,4 @@
-.form {
+#search-form {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -10,10 +10,15 @@
     margin-bottom: 32px;
 }
 
-.load-more {
-    display: block;
+.hidden {
+    display: none;
+}
+
+.load-more-hidden {
+    display: none;
     margin: 0 auto;
     margin-top: 32px;
+    margin-bottom: 44px;
 }
 
 .loading-message {

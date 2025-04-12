@@ -3,19 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>goit-js-hw-12</title>
-    <link rel="stylesheet" href="./css/styles.css" />
+    <title>Image Search App</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <form id="search-form">
         <input type="text" name="search" placeholder="Enter search term">
         <button type="submit">Search</button>
     </form>
-    <div class="loading-message">Loading images, please wait...</div>
-
-    <div class="gallery"></div>
-    <button class="load-more hidden">Load more</button>
-    <span class="loader"></span>
-    <script type="module" src="main.js"></script>
+    <div class="gallery js-image-list"></div>
+    <button class="js-load-more">Load more</button>
+    <div class="js-loader"></div>
+    <script type="module" src="./main.js"></script>
 </body>
 </html>
