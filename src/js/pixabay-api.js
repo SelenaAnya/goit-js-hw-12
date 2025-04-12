@@ -1,5 +1,7 @@
+import axios from 'axios';
 const API_KEY = '49640008-31ceefc585112d8f472f2aefe';
 const BASE_URL = 'https://pixabay.com/api/';
+
 
 export async function fetchImages(page = 1, query) {
     try {
@@ -9,8 +11,8 @@ export async function fetchImages(page = 1, query) {
                 q: query,
                 image_type: "photo",
                 orientation: "horizontal",
-                safesearch: true,
                 page: page,
+                safesearch: true,
                 per_page: 15
             }
         });

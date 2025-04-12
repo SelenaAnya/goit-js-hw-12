@@ -1,6 +1,7 @@
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 
+
 const galleryContainer = document.querySelector('.js-image-list');
 const loader = document.querySelector('.js-loader');
 const loadMoreButton = document.querySelector('.js-load-more');
@@ -13,14 +14,15 @@ export function createGallery(images) {
             <a href="${image.largeImageURL}">
                 <div class="image-container">
                     <span class="loader"></span>
-                    <img src="${image.webformatURL}" alt="${image.tags}" loading="lazy">
+                    <img src="${image.webformatURL}" alt="${image.tags}" loading="lazy"
+                    style="box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); object-fit: cover;>
                 </div>
             </a>
             <div class="image-info">
-                <p><strong>Likes:</strong> ${image.likes}</p>
-                <p><strong>Views:</strong> ${image.views}</p>
-                <p><strong>Comments:</strong> ${image.comments}</p>
-                <p><strong>Downloads:</strong> ${image.downloads}</p>
+                <p class="info-item"><span class="info-value">Likes:</span> ${image.likes}</p>
+                <p class="info-item"><span class="info-value">Views:</span> ${image.views}</p>
+                <p class="info-item"><span class="info-value">Comments:</span> ${image.comments}</p>
+                <p class="info-item"><span class="info-value">Downloads:</span> ${image.downloads}</p>
             </div>
         </li>
     `).join('');
@@ -28,18 +30,58 @@ export function createGallery(images) {
     galleryContainer.insertAdjacentHTML('beforeend', markup);
     lightbox.refresh();
     hideLoader();
+
+    document.querySelectorAll(".image-container img").forEach((img) => {
+        const loader = img.closest(".image-container").querySelector(".loader");
+        if (img.complete) {
+            loader.classList.remove("visible");
+        } else {
+            img.addEventListener("load", () => {
+                loader.classList.remove("visible");
+            });
+        }
+    });
+
+    if (!lightbox) {
+        lightbox = new SimpleLightbox(".gallery a");
+    } else {
+        lightbox.refresh();
+    }
+}
+
+const galleryItems = document.querySelectorAll(".gallery-item");
+
+galleryItems.forEach((item) => {
+
+    item.addEventListener("mouseover", () => {
+        item.style.transform = "scale(1.05)";
+    });
+
+    item.addEventListener("mouseout", () => {
+        item.style.transform = "scale(1)";
+    });
+});
+
+console.log(loader);
+console.log(loadMoreButton);
+
+
+export function showLoader() {
+    const loader = document.querySelector(".loader");
+    if (loader) {
+        loader.classList.add("visible"); // show loader
+    }
+}
+
+export function hideLoader() {
+    const loader = document.querySelector(".loader");
+    if (loader) {
+        loader.classList.remove("visible"); // hide loader
+    }
 }
 
 export function clearGallery() {
     galleryContainer.innerHTML = '';
-}
-
-export function showLoader() {
-    loader.style.display = 'block';
-}
-
-export function hideLoader() {
-    loader.style.display = 'none';
 }
 
 export function showLoadMoreButton() {

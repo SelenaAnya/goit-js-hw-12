@@ -85,6 +85,26 @@
     }
 }
 
+.gallery {
+    list-style: none;
+    display: grid;
+    text-align: center;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 24px;
+    padding: 0;
+    margin: 0 auto;
+    justify-content: center;
+    align-items: center;
+    /* margin-top: 108px; */
+}
+
+.gallery-item {
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease-in-out;
+}
+
+
 .image-info {
     display: flex;
     justify-content: center;
@@ -92,6 +112,7 @@
     font-size: 12px;
     border: 1px solid #808080;
     padding: 10px;
+    margin: 0;
 }
 
 .info-item {

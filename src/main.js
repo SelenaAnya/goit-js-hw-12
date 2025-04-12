@@ -22,6 +22,7 @@ searchForm.addEventListener('submit', async (event) => {
 });
 
 loadMoreButton.addEventListener('click', () => {
+    let page = 1;
     page++;
     fetchNewImages();
 });
