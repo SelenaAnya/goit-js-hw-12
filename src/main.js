@@ -62,7 +62,7 @@ function smoothScroll() {
 if (searchInput) {
     searchInput.style.width = "300px";
     searchInput.style.padding = "10px";
-    searchInput.style.border = "2px solid #4E35DE";
+    searchInput.style.border = "2px solid #4E75FF";
     searchInput.style.borderRadius = "8px";
     searchInput.style.fontSize = "16px";
     searchInput.style.color = "#333";
@@ -109,7 +109,7 @@ if (searchButton) {
 
     // Hovering effect
     searchButton.addEventListener("mouseover", () => {
-        searchButton.style.backgroundColor = "#61dafb";
+        searchButton.style.backgroundColor = "#4E75FF";
     });
 
     searchButton.addEventListener("mouseout", () => {
