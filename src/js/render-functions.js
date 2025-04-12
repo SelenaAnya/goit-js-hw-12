@@ -4,19 +4,16 @@ import 'simplelightbox/dist/simple-lightbox.min.css';
 
 const galleryContainer = document.querySelector('.js-image-list');
 const loader = document.querySelector('.js-loader');
-const loadMoreButton = document.querySelector('.js-load-more');
+const loadMoreButton = document.querySelector('.load-more');
 
 let lightbox = new SimpleLightbox('.gallery a');
 
 export function createGallery(images) {
     const markup = images.map(image => `
         <li class="gallery-item">
-            <a href="${image.largeImageURL}">
-                <div class="image-container">
-                    <span class="loader"></span>
-                    <img src="${image.webformatURL}" alt="${image.tags}" loading="lazy"
-                    style="box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); object-fit: cover;>
-                </div>
+            <a href="${image.largeImageURL}" >
+                <img src="${image.webformatURL}" alt="${image.tags}" loading="lazy"
+                style="box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); object-fit: cover;>
             </a>
             <div class="image-info">
                 <p class="info-item"><span class="info-value">Likes:</span> ${image.likes}</p>
@@ -28,7 +25,11 @@ export function createGallery(images) {
     `).join('');
 
     galleryContainer.insertAdjacentHTML('beforeend', markup);
-    lightbox.refresh();
+    if (lightbox) {
+        lightbox.refresh();
+    } else {
+        lightbox = new SimpleLightbox(".gallery a");
+    }
     hideLoader();
 
     document.querySelectorAll(".image-container img").forEach((img) => {

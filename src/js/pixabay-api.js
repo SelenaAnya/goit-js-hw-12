@@ -2,6 +2,7 @@ import axios from 'axios';
 const API_KEY = '49640008-31ceefc585112d8f472f2aefe';
 const BASE_URL = 'https://pixabay.com/api/';
 
+let page = 1;
 
 export async function fetchImages(page = 1, query) {
     try {
@@ -22,3 +23,10 @@ export async function fetchImages(page = 1, query) {
         console.error("Помилка запиту:", error);
     }
 }
+
+async function onLoadMore() {
+    page++;
+    fetchNewImages();
+}
+
+export { onLoadMore };
