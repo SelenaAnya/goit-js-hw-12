@@ -1,3 +1,8 @@
+.search-form {
+    top: 36px;
+    margin: 0 auto;
+}
+
 .hidden {
     display: none;
 }
@@ -27,7 +32,7 @@
     position: absolute;
     inset: 0px;
     border-radius: 50%;
-    border: 5px solid #FFF;
+    border: 5px solid #fff;
     animation: prixClipFix 2s linear infinite;
 }
 
@@ -39,26 +44,26 @@
 
 @keyframes rotate {
     0% {
-        transform: rotate(0deg)
+        transform: rotate(0deg);
     }
 
     100% {
-        transform: rotate(360deg)
+        transform: rotate(360deg);
     }
 }
 
 @keyframes prixClipFix {
     0% {
-        clip-path: polygon(50% 50%, 0 0, 0 0, 0 0, 0 0, 0 0)
+        clip-path: polygon(50% 50%, 0 0, 0 0, 0 0, 0 0, 0 0);
     }
 
     50% {
-        clip-path: polygon(50% 50%, 0 0, 100% 0, 100% 0, 100% 0, 100% 0)
+        clip-path: polygon(50% 50%, 0 0, 100% 0, 100% 0, 100% 0, 100% 0);
     }
 
     75%,
     100% {
-        clip-path: polygon(50% 50%, 0 0, 100% 0, 100% 100%, 100% 100%, 100% 100%)
+        clip-path: polygon(50% 50%, 0 0, 100% 0, 100% 100%, 100% 100%, 100% 100%);
     }
 }
 
