@@ -1,15 +1,28 @@
-.search-form {
+.form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    position: absolute;
     top: 36px;
-    margin: 0 auto;
-}
-
-.hidden {
-    display: none;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-bottom: 32px;
 }
 
 .load-more {
     display: block;
     margin: 0 auto;
+    margin-top: 32px;
+}
+
+.loading-message {
+    display: none;
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    color: #4E35DE;
+    margin-top: 108px;
 }
 
 .loader {
