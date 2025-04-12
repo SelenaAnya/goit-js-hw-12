@@ -7,7 +7,7 @@ import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
 
 const searchForm = document.querySelector('#search-form');
-const loadMoreButton = document.querySelector('.js-load-more');
+const loadMoreButton = document.querySelector('.load-more');
 let searchQuery = '';
 let page = 1;
 
@@ -57,4 +57,13 @@ function smoothScroll() {
         const height = lastItem.getBoundingClientRect().height;
         window.scrollBy({ top: height * 2, behavior: 'smooth' });
     }
+}
+
+
+export function showLoadMoreButton() {
+    loadMoreButton.style.display = 'block';
+}
+
+export function hideLoadMoreButton() {
+    loadMoreButton.style.display = 'none';
 }

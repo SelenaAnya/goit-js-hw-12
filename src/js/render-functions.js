@@ -83,11 +83,3 @@ export function hideLoader() {
 export function clearGallery() {
     galleryContainer.innerHTML = '';
 }
-
-export function showLoadMoreButton() {
-    loadMoreButton.style.display = 'block';
-}
-
-export function hideLoadMoreButton() {
-    loadMoreButton.style.display = 'none';
-}
