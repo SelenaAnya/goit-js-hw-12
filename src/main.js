@@ -14,6 +14,11 @@ const loadMore = document.querySelector('.js-load-more');
 const form = document.querySelector('.search-form');
 const galleryItem = document.querySelector('.gallery-item');
 
+function handleTouch(event) {
+    console.log('Touch started', event);
+}
+
+
 document.addEventListener('touchstart', handleTouch,
     { passive: true });
 
@@ -57,7 +62,7 @@ async function onLoadMore() {
 
     try {
         const data = await getImagesByQuery(query, page);
-        container.insertAdjacentHTML("beforeend", createMarkup(data.hits));
+        ImageList.insertAdjacentHTML("beforeend", createMarkup(data.hits));
         loadMore.disabled = false;
         loadMore.innerHTML = "Load more";
 
