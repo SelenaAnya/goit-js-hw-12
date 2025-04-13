@@ -1,17 +1,17 @@
 import SimpleLightbox from 'simplelightbox';
 
 export function createGallery(images) {
-    const markup = images.map(({ webformatURL, tags }) => `
+    const markup = images.map(({ webformatURL, tags, likes, views, comments, downloads }) => `
         <li class="gallery-item">
             <a href="${webformatURL}">
-            <div class="loader"></div>
+                <div class="loader"></div>
                 <img src="${webformatURL}" alt="${tags}" />
             </a>
             <div class="image-info">
-                <p class="info-item"><span class="info-value">Likes:</span> ${image.likes}</p>
-                <p class="info-item"><span class="info-value">Views:</span> ${image.views}</p>
-                <p class="info-item"><span class="info-value">Comments:</span> ${image.comments}</p>
-                <p class="info-item"><span class="info-value">Downloads:</span> ${image.downloads}</p>
+                <p class="info-item"><span class="info-value">Likes:</span> ${likes}</p>
+                <p class="info-item"><span class="info-value">Views:</span> ${views}</p>
+                <p class="info-item"><span class="info-value">Comments:</span> ${comments}</p>
+                <p class="info-item"><span class="info-value">Downloads:</span> ${downloads}</p>
             </div>
         </li>
     `).join('');

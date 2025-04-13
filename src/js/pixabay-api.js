@@ -18,6 +18,7 @@ export async function getImagesByQuery(query, page = 1) {
 }
 
 
+
 async function onLoadMore() {
     page++;
     loadMore.disabled = true;

@@ -18,18 +18,14 @@ function handleTouch(event) {
     console.log('Touch started', event);
 }
 
-
-document.addEventListener('touchstart', handleTouch,
-    { passive: true });
-
-console.log(document.querySelector('.search-form'));
+document.addEventListener('touchstart', handleTouch, { passive: true });
 
 document.querySelector('.search-form').addEventListener('submit', async (e) => {
     e.preventDefault();
     query = e.target.elements.searchQuery.value.trim();
     page = 1;
     clearGallery();
-    // hideLoadMoreButton();
+    hideLoadMoreButton();
 
     if (!query) return;
 
@@ -55,24 +51,28 @@ document.querySelector('.search-form').addEventListener('submit', async (e) => {
     }
 });
 
+loadMore.addEventListener('click', onLoadMore);
+
 async function onLoadMore() {
     page++;
     loadMore.disabled = true;
     loadMore.innerHTML = "Loading...";
+    showLoader();
 
     try {
         const data = await getImagesByQuery(query, page);
-        ImageList.insertAdjacentHTML("beforeend", createMarkup(data.hits));
+        hideLoader();
+        createGallery(data.hits);
         loadMore.disabled = false;
         loadMore.innerHTML = "Load more";
 
-        // Checking if the user has reached the end of the results
+        // Checking if the end has been reached
         if (page * 15 >= totalHits) {
             loadMore.classList.replace("load-more", "load-more-hidden");
             alert("We're sorry, but you've reached the end of search results.");
         }
 
-        // Smooth page scrolling
+        // Smooth scrolling to new cards
         const galleryItem = document.querySelector(".gallery-item");
         if (galleryItem) {
             const cardHeight = galleryItem.getBoundingClientRect().height;
@@ -82,7 +82,11 @@ async function onLoadMore() {
                 behavior: "smooth"
             });
         }
+
     } catch (error) {
+        hideLoader();
+        loadMore.disabled = false;
+        loadMore.innerHTML = "Load more";
         alert(error.message);
     }
 }
