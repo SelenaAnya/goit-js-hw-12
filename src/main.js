@@ -9,6 +9,13 @@ let query = '';
 let page = 1;
 let totalHits = 0;
 
+const container = document.querySelector('.js-image-list');
+const loadMore = document.querySelector('.js-load-more');
+const form = document.querySelector('.search-form');
+const galleryItem = document.querySelector('.gallery-item')
+
+// loadMore.addEventListener('click', onLoadMore);
+
 document.querySelector('.search-form').addEventListener('submit', async (e) => {
     e.preventDefault();
     query = e.target.elements.searchQuery.value.trim();
@@ -40,32 +47,34 @@ document.querySelector('.search-form').addEventListener('submit', async (e) => {
     }
 });
 
-document.querySelector('.load-more').addEventListener('click', async () => {
+async function onLoadMore() {
     page++;
+    loadMore.disabled = true;
+    loadMore.innerHTML = "Loading...";
 
     try {
-        showLoader();
-        const data = await getImagesByQuery(query, page);
-        hideLoader();
+        const data = await serviceMovie(page);
+        container.insertAdjacentHTML("beforeend", createMarkup(data.results));
+        loadMore.disabled = false;
+        loadMore.innerHTML = "Load more";
 
-        createGallery(data.hits);
-
-        // Checking if the user has reached the end of the results
-        if (page >= Math.ceil(totalHits / 15)) {
-            hideLoadMoreButton();
-            iziToast.warning({ message: "We're sorry, but you've reached the end of search results." });
-        } else {
-            showLoadMoreButton();
+        // Перевірка, чи користувач дійшов до кінця результатів
+        if (data.page >= data.total_pages) {
+            loadMore.classList.replace("load-more", "load-more-hidden");
+            alert("We're sorry, but you've reached the end of search results.");
         }
 
-        // Smooth page scrolling
-        const galleryItem = document.querySelector('.gallery-item');
-        if (galleryItem) {
-            const cardHeight = galleryItem.getBoundingClientRect().height;
-            window.scrollBy({ left: 0, top: cardHeight * 2, behavior: 'smooth' });
+        // Плавне прокручування сторінки
+        const card = document.querySelector(".movie-card");
+        if (card) {
+            const cardHeight = card.getBoundingClientRect().height;
+            window.scrollBy({
+                left: 0,
+                top: cardHeight * 2,
+                behavior: "smooth"
+            });
         }
     } catch (error) {
-        hideLoader();
-        iziToast.error({ message: 'Помилка завантаження' });
+        alert(error.message);
     }
-});
+}
