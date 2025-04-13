@@ -1,99 +1,136 @@
 import { getImagesByQuery } from './js/pixabay-api.js';
 import {
-    createGallery, clearGallery,
-    showLoader, hideLoader, showLoadMoreButton, hideLoadMoreButton
+    createGallery,
+    clearGallery,
+    showLoader,
+    hideLoader,
+    showLoadMoreButton,
+    hideLoadMoreButton
 } from './js/render-functions.js';
 import iziToast from 'izitoast';
+import 'izitoast/dist/css/iziToast.min.css';
 
-iziToast.info({
-    title: 'Зачекайте',
-    message: 'Завантаження нових зображень...',
-    timeout: 2000,
-    position: 'topRight'
-});
+const searchForm = document.querySelector('.search-form');
+const loadMoreBtn = document.querySelector('.load-more-btn');
 
-let query = '';
-let page = 1;
+let currentQuery = '';
+let currentPage = 1;
 let totalHits = 0;
 
-const ImageList = document.querySelector('.js-image-list');
-const loadMore = document.querySelector('.js-load-more');
-const form = document.querySelector('.search-form');
-const galleryItem = document.querySelector('.gallery-item');
+// Ховаємо кнопку при запуску
+hideLoadMoreButton();
 
-function handleTouch(event) {
-    console.log('Touch started', event);
-}
-
-document.addEventListener('touchstart', handleTouch, { passive: true });
-
-document.querySelector('.search-form').addEventListener('submit', async (e) => {
+// Обробник подій форми пошуку
+searchForm.addEventListener('submit', async function (e) {
     e.preventDefault();
-    query = e.target.elements.searchQuery.value.trim();
-    page = 1;
+
+    const searchQuery = e.target.elements.searchQuery.value.trim();
+
+    if (!searchQuery) {
+        iziToast.error({
+            title: 'Error',
+            message: 'Please enter a search query',
+            position: 'topRight',
+        });
+        return;
+    }
+
+    // Очищаємо галерею, показуємо завантажувач та скидаємо сторінку
     clearGallery();
+    showLoader();
     hideLoadMoreButton();
 
-    if (!query) return;
+    currentQuery = searchQuery;
+    currentPage = 1;
 
     try {
-        showLoader();
-        const data = await getImagesByQuery(query, page);
-        hideLoader();
-
+        const data = await getImagesByQuery(currentQuery, currentPage);
         totalHits = data.totalHits;
 
         if (data.hits.length === 0) {
-            iziToast.error({ message: 'Нічого не знайдено' });
+            iziToast.error({
+                title: 'Error',
+                message: 'Sorry, there are no images matching your search query. Please try again.',
+                position: 'topRight',
+            });
             return;
         }
 
         createGallery(data.hits);
-        if (page < Math.ceil(totalHits / 15)) {
+
+        iziToast.success({
+            title: 'Success',
+            message: `Hooray! We found ${totalHits} images.`,
+            position: 'topRight',
+        });
+
+        // Визначаємо, чи є ще зображення для завантаження
+        if (data.hits.length < totalHits && currentPage < Math.ceil(totalHits / 15)) {
             showLoadMoreButton();
+        } else {
+            hideLoadMoreButton();
+            if (data.hits.length > 0) {
+                iziToast.info({
+                    title: 'Info',
+                    message: "We're sorry, but you've reached the end of search results.",
+                    position: 'topRight',
+                });
+            }
         }
     } catch (error) {
+        iziToast.error({
+            title: 'Error',
+            message: `Error fetching images: ${error.message}`,
+            position: 'topRight',
+        });
+    } finally {
         hideLoader();
-        iziToast.error({ message: 'Помилка завантаження' });
     }
 });
 
-loadMore.addEventListener('click', onLoadMore);
-
-async function onLoadMore() {
-    page++;
-    loadMore.disabled = true;
-    loadMore.innerHTML = "Loading...";
+// Обробник подій кнопки "Load more"
+loadMoreBtn.addEventListener('click', async function () {
     showLoader();
+    currentPage += 1;
 
     try {
-        const data = await getImagesByQuery(query, page);
-        hideLoader();
-        createGallery(data.hits);
-        loadMore.disabled = false;
-        loadMore.innerHTML = "Load more";
+        const data = await getImagesByQuery(currentQuery, currentPage);
 
-        // Checking if the end has been reached
-        if (page * 15 >= totalHits) {
-            loadMore.classList.replace("load-more", "load-more-hidden");
-            alert("We're sorry, but you've reached the end of search results.");
+        if (data.hits.length === 0) {
+            hideLoadMoreButton();
+            iziToast.info({
+                title: 'Info',
+                message: "We're sorry, but you've reached the end of search results.",
+                position: 'topRight',
+            });
+            return;
         }
 
-        // Smooth scrolling to new cards
-        const galleryItem = document.querySelector(".gallery-item");
-        if (galleryItem) {
-            const cardHeight = galleryItem.getBoundingClientRect().height;
-            window.scrollBy({
-                left: 0,
-                top: cardHeight * 2,
-                behavior: "smooth"
+        createGallery(data.hits);
+
+        // Плавне прокручування сторінки
+        const cardHeight = document.querySelector('.photo-card').getBoundingClientRect().height;
+        window.scrollBy({
+            top: cardHeight * 2,
+            behavior: 'smooth',
+        });
+
+        // Перевіряємо, чи це кінець колекції
+        if (currentPage * 15 >= totalHits) {
+            hideLoadMoreButton();
+            iziToast.info({
+                title: 'Info',
+                message: "We're sorry, but you've reached the end of search results.",
+                position: 'topRight',
             });
         }
-
     } catch (error) {
+        iziToast.error({
+            title: 'Error',
+            message: `Error fetching more images: ${error.message}`,
+            position: 'topRight',
+        });
+    } finally {
         hideLoader();
-        loadMore.disabled = false;
-        loadMore.innerHTML = "Load more";
-        alert(error.message);
     }
-}
+});
