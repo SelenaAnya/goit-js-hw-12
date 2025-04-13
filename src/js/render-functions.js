@@ -26,10 +26,11 @@ export function hideLoader() {
     document.querySelector('.loader').classList.remove('visible');
 }
 
-// export function showLoadMoreButton() {
-//     document.querySelector('.load-more').classList.add('visible');
-// }
+export function showLoadMoreButton() {
+    document.querySelector('.load-more').classList.add('visible');
+}
 
-// export function hideLoadMoreButton() {
-//     document.querySelector('.load-more').classList.remove('visible');
-// }
+export function hideLoadMoreButton() {
+    document.querySelector('.load-more').classList.remove('visible');
+}
+
