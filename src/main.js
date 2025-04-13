@@ -5,6 +5,13 @@ import {
 } from './js/render-functions.js';
 import iziToast from 'izitoast';
 
+iziToast.info({
+    title: 'Зачекайте',
+    message: 'Завантаження нових зображень...',
+    timeout: 2000,
+    position: 'topRight'
+});
+
 let query = '';
 let page = 1;
 let totalHits = 0;
