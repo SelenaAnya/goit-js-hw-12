@@ -4,8 +4,8 @@ export function createGallery(images) {
     const markup = images.map(({ webformatURL, tags, likes, views, comments, downloads }) => `
         <li class="gallery-item">
             <a href="${webformatURL}">
-                <div class="loader"></div>
-                <img src="${webformatURL}" alt="${tags}" />
+                <div class="loader active"></div>
+                <img src="${webformatURL}" alt="${tags}" onload="hideImageLoader(this)" />
             </a>
             <div class="image-info">
                 <p class="info-item"><span class="info-value">Likes:</span> ${likes}</p>
@@ -15,10 +15,18 @@ export function createGallery(images) {
             </div>
         </li>
     `).join('');
+
     document.querySelector('.gallery').innerHTML += markup;
 
     const lightbox = new SimpleLightbox('.gallery a');
     lightbox.refresh();
+}
+
+export function hideImageLoader(image) {
+    const loader = image.previousElementSibling;
+    if (loader) {
+        loader.classList.remove("active");
+    }
 }
 
 export function clearGallery() {
@@ -34,10 +42,11 @@ export function hideLoader() {
 }
 
 export function showLoadMoreButton() {
-    document.querySelector('.load-more').classList.add('visible');
+    const button = document.querySelector('.load-more-btn');
+    if (button) button.classList.add('visible');
 }
 
 export function hideLoadMoreButton() {
-    document.querySelector('.load-more').classList.remove('visible');
+    const button = document.querySelector('.load-more-btn');
+    if (button) button.classList.remove('visible');
 }
-
