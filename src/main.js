@@ -14,9 +14,10 @@ const loadMore = document.querySelector('.js-load-more');
 const form = document.querySelector('.search-form');
 const galleryItem = document.querySelector('.gallery-item');
 
-document.addEventListener('DOMContentLoaded', () => {
-    loadMore.addEventListener('click', onLoadMore);
-});
+document.addEventListener('touchstart', handleTouch,
+    { passive: true });
+
+console.log(document.querySelector('.search-form'));
 
 document.querySelector('.search-form').addEventListener('submit', async (e) => {
     e.preventDefault();
