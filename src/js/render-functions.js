@@ -4,8 +4,15 @@ export function createGallery(images) {
     const markup = images.map(({ webformatURL, tags }) => `
         <li class="gallery-item">
             <a href="${webformatURL}">
+            <div class="loader"></div>
                 <img src="${webformatURL}" alt="${tags}" />
             </a>
+            <div class="image-info">
+                <p class="info-item"><span class="info-value">Likes:</span> ${image.likes}</p>
+                <p class="info-item"><span class="info-value">Views:</span> ${image.views}</p>
+                <p class="info-item"><span class="info-value">Comments:</span> ${image.comments}</p>
+                <p class="info-item"><span class="info-value">Downloads:</span> ${image.downloads}</p>
+            </div>
         </li>
     `).join('');
     document.querySelector('.gallery').innerHTML += markup;

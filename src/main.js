@@ -23,7 +23,7 @@ document.querySelector('.search-form').addEventListener('submit', async (e) => {
     query = e.target.elements.searchQuery.value.trim();
     page = 1;
     clearGallery();
-    hideLoadMoreButton();
+    // hideLoadMoreButton();
 
     if (!query) return;
 
