@@ -13,7 +13,7 @@ import {
 import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
 
-const searchForm = document.querySelector('.search-form');
+const form = document.querySelector('.form');
 const loadMoreBtn = document.querySelector('.load-more-btn');
 const searchInput = document.querySelector('input[name="searchQuery"]');
 
@@ -25,7 +25,7 @@ let totalHits = 0;
 hideLoadMoreButton();
 
 // Обробник подій форми пошуку
-searchForm.addEventListener('submit', async function (e) {
+form.addEventListener('submit', async function (e) {
     e.preventDefault();
     currentQuery = e.target.elements.searchQuery.value.trim();
     currentPage = 1;
@@ -61,7 +61,7 @@ searchForm.addEventListener('submit', async function (e) {
         }
 
         // Очищаємо форму після запиту
-        searchForm.reset();
+        form.reset();
     } catch (error) {
         iziToast.error({ title: 'Error', message: `Error fetching images: ${error.message}`, position: 'topRight' });
     } finally {
