@@ -107,7 +107,7 @@
     display: none;
 }
 
-.loader {
+.image-loader {
     width: 48px;
     height: 48px;
     border-radius: 50%;
@@ -119,8 +119,8 @@
     animation: rotation 1s linear infinite;
 }
 
-.loader::after,
-.loader::before {
+.image-loader::after,
+.image-loader::before {
     content: '';
     box-sizing: border-box;
     position: absolute;
@@ -139,7 +139,7 @@
     transform-origin: center center;
 }
 
-.loader::before {
+.image-loader::before {
     width: 32px;
     height: 32px;
     border-color: #FFF #FFF transparent transparent;
@@ -166,6 +166,6 @@
     }
 }
 
-.pos-bottom {
+.sl-caption div{
     display: none;
 }

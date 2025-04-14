@@ -16,8 +16,8 @@ export function createGallery(images) {
         <li class="gallery-item">
             <a href="${largeImageURL}">
                 <div class="image-wrapper">
-                    <span class="loader"></span>
-                    <img src="${webformatURL}" alt="${tags}" loading="lazy" onload="this.previousElementSibling.style.display='none'" />
+                    <span class="image-loader"></span>
+                    <img src="${webformatURL}" alt="${tags}" loading="lazy" class="gallery-image" />
                 </div>
             </a>
             <div class="image-info">
@@ -30,6 +30,18 @@ export function createGallery(images) {
     `).join('');
 
     gallery.insertAdjacentHTML('beforeend', markup);
+
+    // Додати обробник події завантаження для всіх зображень
+    document.querySelectorAll('.gallery-image').forEach(img => {
+        img.addEventListener('load', function () {
+            // Знаходимо і приховуємо лоадер для цього зображення
+            const loader = this.previousElementSibling;
+            if (loader) {
+                loader.style.display = 'none';
+            }
+        });
+    });
+
     lightbox.refresh();
 }
 
@@ -38,11 +50,11 @@ export function clearGallery() {
 }
 
 export function showLoader() {
-    loader.classList.add('visible');
+    loader.classList.remove('is-hidden');
 }
 
 export function hideLoader() {
-    loader.classList.remove('visible');
+    loader.classList.add('is-hidden');
 }
 
 export function showLoadMoreButton() {
